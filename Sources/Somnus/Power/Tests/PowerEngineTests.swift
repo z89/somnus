@@ -935,6 +935,10 @@ enum PowerTestSuite {
         r.expect(absent.sleepDisabledIsKnown, "a missing key in valid output is known")
         r.expectEqual(absent.sleepDisabled, false, "a missing key is the default, off")
 
+        let invalid = PMSet.parseSleepSettings("System-wide power settings:\n SleepDisabled\t\tmaybe\n hibernatemode        3\n")
+        r.expect(!invalid.sleepDisabledIsKnown, "an unreadable value leaves SleepDisabled unknown")
+        r.expectEqual(invalid.hibernateMode, 3, "an unreadable SleepDisabled keeps the other settings")
+
         let empty = PMSet.parseSleepSettings("")
         r.expect(!empty.sleepDisabledIsKnown, "unreadable output leaves SleepDisabled unknown")
         r.expectEqual(empty.hibernateMode, 0, "unreadable output fails the preflight rather than passing it")

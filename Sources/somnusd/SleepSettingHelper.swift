@@ -10,10 +10,10 @@
 //    * NSXPC delivers method calls on a concurrent queue, and reply blocks may
 //      therefore be entered on several threads at once. Nothing here relies on
 //      them arriving serially.
-//    * The instance holds NO power state and NO cache. Its only mutable state
-//      is `admission`, a counting semaphore that bounds how much work may be
-//      queued; it is a `let`, it is thread-safe by construction, and it says
-//      nothing about the machine.
+//    * The instance holds NO power state and NO cache. Its mutable state is
+//      `admission`, a counting semaphore that bounds how much work may be
+//      queued, and `openOffBatch`, guarded by `offBatchLock`. Neither says
+//      anything about the machine.
 //    * All `pmset` work is hopped onto `workQueue`, a private SERIAL queue, so
 //      a read can never observe a half-applied write and two writes can never
 //      race. The reply block is invoked exactly once, either from that queue or
@@ -26,6 +26,8 @@
 //  the daemon serialises through it for as long as the attacker keeps calling.
 //  `admission` caps the depth: past it, calls are refused IMMEDIATELY rather
 //  than enqueued, so the cost of a flood is one rejected reply per call.
+//  Off requests are never refused. Instead they join the queued off write
+//  that has not started yet, so a flood of them adds at most one job.
 
 import Foundation
 import SomnusKit
@@ -55,6 +57,16 @@ final class SleepSettingHelper: NSObject, SomnusHelperProtocol {
     /// here) and released when the queued work finishes.
     private let admission = DispatchSemaphore(value: SleepSettingHelper.maxQueuedRequests)
     private let monitoring = MonitoringHeartbeatStore()
+
+    /// Replies waiting on one queued off write.
+    private final class OffBatch {
+        var replies: [(Error?) -> Void] = []
+    }
+
+    /// The queued off write that new off requests may still join: it has not
+    /// started, and no on write has been queued behind it.
+    private var openOffBatch: OffBatch?
+    private let offBatchLock = NSLock()
     private var watchdog: DispatchSourceTimer!
 
     private let log = Logger(subsystem: SomnusConstants.machServiceName, category: "helper")
@@ -99,35 +111,76 @@ final class SleepSettingHelper: NSObject, SomnusHelperProtocol {
     @objc func setSleepDisabled(_ enabled: Bool, reply: @escaping (Error?) -> Void) {
         // Off is the safe direction and is never refused for load: a burst of
         // reads must not be able to block the safety net's shutoff.
-        let admitted = admission.wait(timeout: .now()) == .success
-        guard admitted || !enabled else {
+        guard enabled else {
+            enqueueOffWrite(reply: reply)
+            return
+        }
+        guard admission.wait(timeout: .now()) == .success else {
             log.error("setSleepDisabled refused: more than \(Self.maxQueuedRequests, privacy: .public) requests already queued")
             reply(Self.busyError.asNSError)
             return
         }
+        // Close the open off batch, so a later off request queues behind this
+        // on write instead of running ahead of it.
+        offBatchLock.lock()
+        openOffBatch = nil
         workQueue.async { [log, admission, monitoring] in
-            defer { if admitted { admission.signal() } }
+            defer { admission.signal() }
             do {
-                if enabled {
-                    let status = monitoring.snapshot()
-                    guard status.appRunning, status.safetyNetArmed else {
-                        reply(SomnusError.safetyNetUnavailable.asNSError)
-                        return
-                    }
+                let status = monitoring.snapshot()
+                guard status.appRunning, status.safetyNetArmed else {
+                    reply(SomnusError.safetyNetUnavailable.asNSError)
+                    return
                 }
-                try PMSet.writeSleepDisabled(enabled)
-                // The read-back inside `writeSleepDisabled` is the commit
-                // point. Publish only after it succeeds, and carry no value:
-                // every listener re-reads live truth, so notification
-                // coalescing can never make a stale intermediate state stick.
+                try PMSet.writeSleepDisabled(true)
                 SomnusStateChangeSignal.post()
-                log.notice("disablesleep set to \(enabled ? 1 : 0, privacy: .public)")
+                log.notice("disablesleep set to 1")
                 reply(nil)
             } catch {
                 let somnus = SomnusError.from(error)
                 log.error("setSleepDisabled failed: \(somnus.localizedDescription, privacy: .private)")
                 reply(somnus.asNSError)
             }
+        }
+        offBatchLock.unlock()
+    }
+
+    /// Joins the open off batch, or queues a new one. The batch closes when its
+    /// write starts, so every reply reports a write that began after its
+    /// request arrived.
+    private func enqueueOffWrite(reply: @escaping (Error?) -> Void) {
+        offBatchLock.lock()
+        defer { offBatchLock.unlock() }
+        if let batch = openOffBatch {
+            batch.replies.append(reply)
+            return
+        }
+        let batch = OffBatch()
+        batch.replies.append(reply)
+        openOffBatch = batch
+        workQueue.async { [weak self, log] in
+            guard let self else { return }
+            self.offBatchLock.lock()
+            if self.openOffBatch === batch { self.openOffBatch = nil }
+            let replies = batch.replies
+            self.offBatchLock.unlock()
+
+            let result: Error?
+            do {
+                try PMSet.writeSleepDisabled(false)
+                // The read-back inside `writeSleepDisabled` is the commit
+                // point. Publish only after it succeeds, and carry no value:
+                // every listener re-reads live truth, so notification
+                // coalescing can never make a stale intermediate state stick.
+                SomnusStateChangeSignal.post()
+                log.notice("disablesleep set to 0 for \(replies.count, privacy: .public) request(s)")
+                result = nil
+            } catch {
+                let somnus = SomnusError.from(error)
+                log.error("setSleepDisabled failed: \(somnus.localizedDescription, privacy: .private)")
+                result = somnus.asNSError
+            }
+            replies.forEach { $0(result) }
         }
     }
 

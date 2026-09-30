@@ -8,9 +8,13 @@
 	<key>BundleProgram</key>
 	<string>Contents/MacOS/somnusd</string>
 
-	<!-- SleepDisabled survives a reboot. Starting at boot lets the watchdog
-	     restore Normal Sleep if the app never reports in after a restart. -->
+	<!-- SleepDisabled survives a reboot and a helper crash. Starting at boot
+	     and restarting after an exit keep the watchdog running, so it can
+	     restore Normal Sleep if the app never reports in. -->
 	<key>RunAtLoad</key>
+	<true/>
+
+	<key>KeepAlive</key>
 	<true/>
 
 	<key>MachServices</key>

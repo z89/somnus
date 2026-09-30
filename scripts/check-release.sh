@@ -23,7 +23,7 @@ git diff --check
 git diff --cached --check
 plutil -lint Resources/*.plist Resources/*.entitlements >/dev/null
 ./scripts/check-docs.py
-sh -n scripts/*.sh
+for script in scripts/*.sh; do sh -n "$script"; done
 test -x scripts/build.sh
 test -x scripts/install.sh
 test -x scripts/uninstall.sh

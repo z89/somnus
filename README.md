@@ -1,37 +1,33 @@
 <h1 align="center">somnus</h1>
 
-<p align="center">lid-closed mode for macOS: keep a Mac awake with the lid shut, behind a battery safety net, from the menu bar, Control Center, Shortcuts or a cli</p>
-
 <p align="center">
-  <a href="https://github.com/z89/somnus/stargazers"><img src="https://img.shields.io/github/stars/z89/somnus?style=flat-square&color=8fd3ff&labelColor=1b1a20" alt="stars"></a>
-  <a href="https://github.com/z89/somnus/commits/main"><img src="https://img.shields.io/github/last-commit/z89/somnus?style=flat-square&color=8fd3ff&labelColor=1b1a20" alt="last commit"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/z89/somnus?style=flat-square&color=8fd3ff&labelColor=1b1a20" alt="license"></a>
   <img src="https://img.shields.io/badge/macos-26%2B-8fd3ff?style=flat-square&labelColor=1b1a20" alt="macOS 26+">
   <img src="https://img.shields.io/badge/pmset-SleepDisabled-8fd3ff?style=flat-square&labelColor=1b1a20" alt="pmset SleepDisabled">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-8fd3ff?style=flat-square&labelColor=1b1a20" alt="MIT license"></a>
 </p>
 
-somnus keeps a Mac awake with the lid shut. it changes one macOS power setting, `SleepDisabled`, the same one `sudo pmset -a disablesleep 1` writes, through a small root helper with a fixed api, and reads the value back after every write. nothing else is changed: your sleep, display and disk timers, hibernation, standby, power nap, thermal shutdown and critical-battery sleep are all left as they are.
+somnus keeps your macbook awake with the lid closed. turn it on from the menu bar, Control Center, Shortcuts or the terminal, and your macbook keeps running until you turn it off again.
 
-stay awake is only allowed while its battery safety net is running. the menu bar app watches charge and power source, warns at 20%, returns the Mac to normal sleep at 10% and, with the lid shut, asks it to sleep straight away. if the app stops reporting, after a crash, a force quit, a restart or a login launch that never happened, the helper restores normal sleep on its own once a 90-second lease runs out. turning stay awake off is always allowed.
+a macbook left awake can drain its battery, so somnus comes with a safety net. it warns you at 20% and lets the macbook sleep again at 10%. if the somnus app crashes or stops running, a small helper notices within 90 seconds and turns stay awake off for you.
 
-the menu bar app, a Control Center tile, Shortcuts actions and the `somnus` cli all drive the same helper and all read the live setting, so none of them can show a mode the Mac is not in. there are no accounts, no analytics, no updater and no network client.
+somnus runs entirely on your macbook, with no accounts, no tracking and no internet connection.
 
-> tested on macOS 27.0 with Xcode 27.0 on an M5 Pro MacBook Pro. builds target macOS 26.0, and ci builds and analyzes on a macOS 26 runner. Intel Macs are untested.
+> tested on macOS 27.0 with Xcode 27.0 on an M5 Pro macbook pro. somnus needs macOS 26 or newer. Intel macbooks haven't been tested.
 
 ## ✨ highlights
 
-- 🌙 **stay awake with the lid shut**: the Mac keeps running on battery or ac, and the idle timer never blanks an attached display, until you turn it off or the battery net does.
-- 🔋 **battery safety net**: a warning at 20%, normal sleep at 10%, each write verified and retried. if the net turned stay awake off, it turns it back on at 15%.
-- 🔌 **ac-aware mode**: optional. stay awake follows the cable, on when it is plugged in and off when it is pulled.
-- 🔒 **fail-safe helper**: the helper refuses to turn stay awake on without a fresh report from an armed safety net, and restores normal sleep by itself when that report stops.
-- 🧭 **one source of truth**: every surface reads `SleepDisabled` live, and a change made anywhere reaches the app only after the helper has read it back.
-- 🩺 **guided setup and diagnostics**: `somnus setup` walks through the approvals macOS requires, and `somnus doctor` checks the whole live installation.
+- 🌙 **stays awake with the lid shut**, on battery or plugged in, until you turn it off.
+- 🔋 **a battery safety net** that warns you at 20% and lets the macbook sleep at 10%. if the net turned stay awake off, it turns it back on at 15%.
+- 🔌 **an optional ac-aware mode** that turns stay awake on when you plug in and off when you unplug.
+- 🔒 **a helper that fails safe**. it won't turn stay awake on without the safety net, and it turns it off if the app goes quiet.
+- 🧭 **the same answer everywhere**. the menu bar, the tile, Shortcuts and the cli all read the real setting, so they always agree.
+- 🩺 **guided setup**. `somnus setup` walks you through the approvals macOS asks for, and `somnus doctor` checks that everything works.
 
 ## 📦 install
 
-somnus is a source build for now. you need macOS 26 or newer, Xcode 26 or newer and a free Apple developer account to sign your own build. there is no notarized download yet.
+there's no download yet, so you build somnus yourself. you need macOS 26 or newer, Xcode 26 or newer, and a free Apple developer account so Xcode can sign the build.
 
-add your Apple account in Xcode under settings, accounts, then:
+add your Apple account in Xcode's settings under accounts, then run
 
 ```sh
 git clone https://github.com/z89/somnus
@@ -39,110 +35,105 @@ cd somnus
 ./scripts/install.sh
 ```
 
-the installer picks up your signing team when exactly one Apple Development team is in your keychain and saves it to the gitignored `Config/Local.xcconfig`. it builds and verifies every signed component, stages the new app before swapping it into `/Applications`, links the cli at `/usr/local/bin/somnus`, then starts the guided setup: helper and login item approval, battery-warning notifications and the Control Center tile. macOS still needs you to click its own approval switches; no script or app can grant those for you. the run ends with `somnus doctor`.
+the installer finds your signing team, builds and checks the app, moves it into `/Applications` and adds the `somnus` command to `/usr/local/bin`. then it walks you through setup. macOS asks you to approve the helper, the login item and notifications, and you can add the Control Center tile. you have to flip those switches yourself, because macOS doesn't let any app do it for you. at the end the installer runs `somnus doctor` to check everything.
 
-to update, run `git pull` and `./scripts/install.sh` again. if stay awake was on, the installer turns it off before replacing the app and turns it back on only after the new helper and battery net pass `somnus doctor`.
+to update, pull the latest code and run the installer again. if stay awake was on, the installer turns it off while it swaps the app, and turns it back on once the new version passes its checks.
 
-to install by hand, copy `Config/Local.xcconfig.example` to `Config/Local.xcconfig` and set your team, run `./scripts/build.sh --signed`, move `.build/release/Build/Products/Release/Somnus.app` to `/Applications`, then run `/Applications/Somnus.app/Contents/Helpers/somnus setup`. link the cli yourself if you want it on your path.
+if you'd rather install by hand, copy `Config/Local.xcconfig.example` to `Config/Local.xcconfig` and put your team id in it. build with `./scripts/build.sh --signed`, move `.build/release/Build/Products/Release/Somnus.app` into `/Applications` and run `/Applications/Somnus.app/Contents/Helpers/somnus setup`.
 
-to remove everything, run `./scripts/uninstall.sh` from the checkout. it refuses to remove the helper until normal sleep has been read back, and it only deletes `/usr/local/bin/somnus` when that path is a symlink into `/Applications/Somnus.app`.
+to uninstall, run `./scripts/uninstall.sh` from the repo. it makes sure your macbook is back to normal sleep before it removes anything.
 
 ## 🌙 modes
 
-there are two modes, and each surface shows the one the Mac is actually in, not the last thing you pressed.
+somnus has two modes. **stay awake** keeps your macbook running with the lid open or closed. **normal sleep** is your macbook behaving the way it always does.
 
-- **stay awake** keeps the Mac running, lid open or shut, on battery or ac.
-- **normal sleep** is macOS as you left it.
+closing the lid still turns off the built-in screen. that's the hardware, and nothing can change it. while stay awake is on, somnus also stops the idle timer from turning off an external display. if it can't, it tells you instead of failing quietly.
 
-closing the lid still turns the built-in display off. that is hardware, and nothing overrides it.
-
-while stay awake is on, the app holds a `PreventUserIdleDisplaySleep` assertion, plus a redundant `PreventUserIdleSystemSleep`, so the idle timer never blanks the screen. if the display assertion cannot be taken, the app reports degraded health rather than carrying on silently.
+wherever you look, you see the mode your macbook is really in, not the last button you pressed.
 
 ## 🎛️ menu bar and control center
 
-the menu bar item is the everyday control. it carries the stay awake, ac-aware and open-at-login toggles, the battery thresholds, setup and repair actions, refresh status and the settings and diagnostics window.
+the menu bar icon is the main control. from there you can switch modes, turn ac-aware mode and open at login on or off, set the battery levels and open settings and diagnostics.
 
-to add the tile, open Control Center, choose edit controls, then add Somnus, Stay Awake. the tile shows the live mode, with `· AC Auto` appended while ac-aware mode is on, or one of these warnings:
+to add the tile, open Control Center, choose edit controls and add Stay Awake from Somnus. the tile shows the current mode, and adds `· AC Auto` when ac-aware mode is on. if something is wrong, it shows one of these instead.
 
 | tile | what it means |
 |---|---|
-| `App Not Running` | no recent report from the app. turning stay awake on is blocked |
-| `Unprotected` | stay awake is on but the app has stopped reporting. the helper restores normal sleep when the 90-second lease expires |
-| `Safety Net Off` | the app is running but the net is not armed, usually because `hibernatemode` is not 3 or 25 |
-| `Monitoring Degraded` | the app could not get a reliable battery reading |
-| `Unavailable` | the helper is missing, not yet approved, unreachable or out of date |
+| `App Not Running` | the somnus app isn't running, so stay awake can't be turned on |
+| `Unprotected` | stay awake is on but the app has stopped checking in. the helper turns it off within 90 seconds |
+| `Safety Net Off` | the app is running but its safety net isn't armed, usually because `hibernatemode` isn't 3 or 25 |
+| `Monitoring Degraded` | the app can't get a reliable battery reading |
+| `Unavailable` | the helper is missing, not approved yet, not answering or out of date |
 
-Shortcuts can set and read stay awake. turning it on succeeds only while the app is running with its net armed, so a shortcut can never create an unprotected mode.
+Shortcuts can turn stay awake on and off and check which mode you're in. turning it on only works while the safety net is running, the same as everywhere else.
 
-## 🖥️ cli reference
+## 🖥️ cli
 
-`somnus` talks to the helper directly for the mode and runs setup and diagnostics through the installed app.
+the `somnus` command talks to the same helper as the app.
 
-| command | arguments | what it does |
-|---|---|---|
-| `somnus on` | | stay awake. refused unless the app's battery net is armed |
-| `somnus off` | | normal sleep. always allowed |
-| `somnus toggle` | | switch to the other mode |
-| `somnus status` | | mode, helper, app, safety net, monitoring, ac-aware, power source, charging and battery, as `key: value` lines |
-| `somnus why` | | every process holding an assertion against sleep, somnus included, as pid, process, type and detail. kernel assertions have no owning process and are not listed |
-| `somnus setup` | `--repair` | guided approvals. `--repair` re-registers the helper after an update or version mismatch |
-| `somnus doctor` | | checks the app, helper, login item and live battery protection. notification and tile problems are warnings |
-| `somnus help` | | usage, also `-h` and `--help` |
-| `somnus --version` | | version and build, also `-v` |
+| command | what it does |
+|---|---|
+| `somnus on` | turn stay awake on. only works while the app's safety net is armed |
+| `somnus off` | go back to normal sleep. always works |
+| `somnus toggle` | switch to the other mode |
+| `somnus status` | show the mode, the helper, the app, the safety net and the battery, one per line |
+| `somnus why` | list the processes keeping your macbook awake, somnus included |
+| `somnus setup` | walk through setup. add `--repair` to fix the helper after an update |
+| `somnus doctor` | check that everything is installed and working |
+| `somnus help` | show usage. `-h` and `--help` work too |
+| `somnus --version` | show the version. `-v` works too |
 
-exit codes are `0` for success, `1` when a read fails or `setup` or `doctor` reports a problem, `2` when the helper is unreachable, refuses the request or fails the read, and `64` for a usage error. `somnus status` still prints everything it could read when the helper is missing.
+`somnus` exits with 0 when it works and 1 when a read fails or `setup` or `doctor` finds a problem. it exits with 2 when the helper can't be reached or says no, and 64 when the command is wrong. `somnus status` still prints what it can when the helper is missing.
 
 ## ⚙️ settings
 
 open settings and diagnostics from the somnus menu.
 
-- **open at login**: setup waits until macOS has actually approved the login item, because a login item that was only requested does not protect you after a restart.
-- **warn at** and **turn stay awake off at**: 20% and 10% by default. the off threshold can be set from 5% to 50%, and the warning always sits above it.
-- **automatic restore**: after the net turns stay awake off, somnus turns it back on at the off threshold plus 5%, charging or not. an explicit off, even a redundant one, cancels the restore, and a pending restore never survives an app restart.
-- **ac-aware mode**: off by default.
-- **system integration**: a short health summary for the helper, notifications and the tile, with repair and service removal under advanced.
+- **open at login**. somnus has to be running to protect you, so setup waits until macOS has really approved the login item.
+- **battery levels**. somnus warns you at 20% and turns stay awake off at 10%. you can set the off level anywhere from 5% to 50%, and the warning always stays above it.
+- **automatic restore**. if the safety net turned stay awake off, somnus turns it back on once the battery is 5% above the off level, charging or not. turning stay awake off yourself cancels this, and so does restarting the app.
+- **ac-aware mode**, off by default.
+- **system integration** shows whether the helper, notifications and the tile are healthy. repair and removal live under advanced.
 
-quitting somnus while stay awake is on asks you to return to normal sleep first. a force quit cannot be intercepted, so the helper lets the app's 90-second lease expire and restores normal sleep itself.
+if you quit somnus while stay awake is on, it asks you to go back to normal sleep first. a force quit skips that question, so the helper turns stay awake off by itself after 90 seconds.
 
 ## 🛡️ safety
 
-the helper checks every caller's code signature, bundle id and user before it answers, runs `pmset` with fixed arguments and a timeout, and reads every write back. an unreliable battery reading disarms protection and retries every minute instead of assuming the Mac has no battery.
+the helper runs as root, so it's kept small and strict. it only answers signed somnus apps run by you, it only runs fixed `pmset` commands, and it checks the setting after every change.
 
-on battery, stay awake holds exactly as it does on ac, and the net is what ends it. with the lid shut, the net also asks the Mac to sleep as soon as it turns stay awake off; with the lid open, it only changes the mode.
+if somnus can't get a reliable battery reading, it treats the safety net as off and tries again every minute. it never assumes your macbook has no battery.
 
-a Mac with its lid shut still makes heat. give it a hard surface and some air, never a bag, and do not rely on somnus for anything that cannot survive an unexpected shutdown.
+when the safety net turns stay awake off with the lid closed, it also puts the macbook to sleep straight away. with the lid open it only switches the mode back.
 
-if somnus cannot answer, reset the setting yourself:
+a closed macbook still gets warm. keep it on a hard surface with some air around it, never in a bag, and don't rely on somnus for anything that can't handle the macbook shutting down unexpectedly.
+
+if somnus ever stops responding, you can turn stay awake off yourself.
 
 ```sh
 sudo pmset -a disablesleep 0
-pmset -g | grep SleepDisabled   # expect 0, or no line at all
+pmset -g | grep SleepDisabled   # should print 0, or nothing
 ```
 
 ## ✅ requirements
 
-- macOS 26 or newer.
-- Xcode 26 or newer, and a free Apple developer account for signing.
-- an administrator account, once, to approve the helper.
+- a macbook. desktop macs have no lid or battery, so somnus has nothing to do there
+- macOS 26 or newer
+- Xcode 26 or newer, and a free Apple developer account
+- an admin account, once, to approve the helper
 
 ## 🩺 troubleshooting
 
-if the tile says unavailable, choose **refresh status** in the somnus menu. if `somnus doctor` still reports a helper problem, run `somnus setup --repair`; a reboot should not be needed.
-
-if the tile says app not running or unprotected, open somnus and wait for `somnus status` to show `app_running: yes`. after a crash the helper restores normal sleep when the lease expires, and the tile catches up the next time macOS redraws it.
-
-if monitoring is degraded, open the lid and plug the power in and out to get a fresh power event. if it stays degraded, run `somnus off` and restart the app. do not force quit it while stay awake is on.
-
-if the mode changed on its own, ac-aware mode is probably on. the tile shows `· AC Auto` and `somnus status` shows `ac_aware_mode: yes`.
-
-if the safety net is off, check `pmset -g | grep hibernatemode`. the net needs 3 or 25, which is what a Mac ships with, and somnus never changes it.
+- **the tile says unavailable**. choose refresh status in the somnus menu. if `somnus doctor` still shows a helper problem, run `somnus setup --repair`. you shouldn't need to restart.
+- **the tile says app not running or unprotected**. open somnus and wait until `somnus status` shows `app_running: yes`. the tile catches up the next time macOS redraws it.
+- **monitoring is degraded**. open the lid, then unplug and replug the power. if that doesn't clear it, run `somnus off` and restart the app. don't force quit it while stay awake is on.
+- **the mode changed by itself**. ac-aware mode is probably on. the tile shows `· AC Auto` and `somnus status` shows `ac_aware_mode: yes`.
+- **the safety net is off**. run `pmset -g | grep hibernatemode`. somnus needs it to be 3 or 25, which is how macbooks ship, and it never changes it.
 
 ## 📚 documentation
 
-- [how it is built](docs/architecture.md): the components, the privileged boundary, the power engine, data and logs, and the release checks.
-- [changelog](CHANGELOG.md): what each release contains.
-- [security policy](SECURITY.md): how to report a vulnerability privately.
+- [how it's built](docs/architecture.md) covers the parts, the helper, the power engine, logs and release checks.
+- [changelog](CHANGELOG.md) lists what's in each release.
 
 ## 📄 license
 
-mit
+MIT

@@ -60,6 +60,32 @@ struct MonitoringHeartbeatStoreTests {
         expect(!store.shouldRunWatchdog(at: 300), "fresh armed heartbeat suppresses watchdog")
         expect(store.shouldRunWatchdog(at: 300.001), "expired protection re-arms watchdog")
 
+        // Regression: a protected report between two unprotected ones starts
+        // a new lapse even if no watchdog pass ran while it was fresh.
+        let quickLapse = MonitoringHeartbeatStore(timeout: 90, startedAt: 0)
+        quickLapse.report(running: false, safetyNetArmed: false,
+                          monitoringDegraded: false, acAwareModeEnabled: false, at: 10)
+        expect(quickLapse.shouldRunWatchdog(at: 10), "first lapse runs the watchdog")
+        quickLapse.markWatchdogHandled()
+        quickLapse.report(running: true, safetyNetArmed: true,
+                          monitoringDegraded: false, acAwareModeEnabled: false, at: 20)
+        quickLapse.report(running: true, safetyNetArmed: false,
+                          monitoringDegraded: false, acAwareModeEnabled: false, at: 21)
+        expect(quickLapse.shouldRunWatchdog(at: 21), "a second lapse runs the watchdog again")
+
+        // A protected report that lands while the watchdog is acting must not
+        // mark the next lapse as handled.
+        let racing = MonitoringHeartbeatStore(timeout: 90, startedAt: 0)
+        racing.report(running: false, safetyNetArmed: false,
+                      monitoringDegraded: false, acAwareModeEnabled: false, at: 10)
+        expect(racing.shouldRunWatchdog(at: 10), "lapse before the race runs the watchdog")
+        racing.report(running: true, safetyNetArmed: true,
+                      monitoringDegraded: false, acAwareModeEnabled: false, at: 11)
+        racing.markWatchdogHandled()
+        racing.report(running: false, safetyNetArmed: false,
+                      monitoringDegraded: false, acAwareModeEnabled: false, at: 12)
+        expect(racing.shouldRunWatchdog(at: 12), "a lapse after the race still runs the watchdog")
+
         let neverReported = MonitoringHeartbeatStore(timeout: 90, startedAt: 100)
         expect(!neverReported.shouldRunWatchdog(at: 190), "new daemon gets startup grace")
         expect(neverReported.shouldRunWatchdog(at: 190.001), "missing startup heartbeat expires")

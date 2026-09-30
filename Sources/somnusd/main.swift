@@ -1,10 +1,11 @@
 //  main.swift
 //  somnusd: the somnus root LaunchDaemon.
 //
-//  Demand-launched by launchd via the `MachServices` key in
-//  Contents/Library/LaunchDaemons/com.z89.somnus.helper.plist (no KeepAlive, no
-//  RunAtLoad). It advertises one Mach service and writes exactly one power
-//  setting: `disablesleep`; its remaining methods expose in-memory health.
+//  Launched by launchd at boot and restarted after any exit (`RunAtLoad` and
+//  `KeepAlive` in Contents/Library/LaunchDaemons/com.z89.somnus.helper.plist),
+//  so the safety watchdog runs even when the app never starts. It advertises
+//  one Mach service and writes exactly one power setting, `disablesleep`; its
+//  remaining methods expose in-memory health.
 //
 //  Argument vector is ignored on purpose: the daemon takes no options, so
 //  there is nothing for a caller to influence.
