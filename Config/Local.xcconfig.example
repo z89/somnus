@@ -1,0 +1,15 @@
+// Copy to Config/Local.xcconfig and set your own Apple Development team.
+// Config/Local.xcconfig is gitignored; this file is the committed template.
+//
+// Find your team ID with:
+//   security find-certificate -c "Apple Development" -p | \
+//     openssl x509 -noout -subject     ->  the OU= field
+//
+// Config/Shared.xcconfig ends with `#include? "Local.xcconfig"`, so anything
+// you set here overrides the shared defaults.
+
+DEVELOPMENT_TEAM = ABCDE12345
+
+// Optional: if `CODE_SIGN_IDENTITY = Apple Development` picks the wrong
+// certificate, name it exactly, e.g.
+// CODE_SIGN_IDENTITY = Apple Development: you@example.com (XXXXXXXXXX)

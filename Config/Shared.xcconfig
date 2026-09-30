@@ -1,0 +1,63 @@
+// Shared.xcconfig: settings common to every somnus target.
+// Referenced as the project-level base configuration for both Debug and Release.
+//
+// Do NOT put your DEVELOPMENT_TEAM here. It lives in Config/Local.xcconfig,
+// which is gitignored and included at the bottom of this file so it wins.
+
+// --- Platform -------------------------------------------------------------
+// macOS 26.0 is a hard floor: ControlWidgetToggle is macOS 26.0+. Do not lower it.
+SDKROOT = macosx
+MACOSX_DEPLOYMENT_TARGET = 26.0
+ARCHS = $(ARCHS_STANDARD)
+
+// --- Swift ----------------------------------------------------------------
+SWIFT_VERSION = 5.0
+SWIFT_EMIT_LOC_STRINGS = YES
+CLANG_ENABLE_MODULES = YES
+CLANG_ENABLE_OBJC_ARC = YES
+ALWAYS_SEARCH_USER_PATHS = NO
+
+// --- Versioning -----------------------------------------------------------
+// Must be identical on every target, or Xcode warns that an app extension's
+// CFBundleVersion does not match its containing app.
+MARKETING_VERSION = 0.1.0
+CURRENT_PROJECT_VERSION = 8
+
+// --- Signing --------------------------------------------------------------
+// Manual signing with a plain "Apple Development" identity and no provisioning
+// profile. Every entitlement somnus uses (App Sandbox on the widget, the
+// temporary-exception mach-lookup) is consumed by the sandbox straight out of
+// the signature and needs no Apple-side provisioning, so this builds offline
+// and deterministically. Override in Config/Local.xcconfig if you need to.
+CODE_SIGN_STYLE = Manual
+CODE_SIGN_IDENTITY = Apple Development
+PROVISIONING_PROFILE_SPECIFIER =
+ENABLE_HARDENED_RUNTIME = YES
+// Xcode injects get-task-allow into development-signed binaries by default.
+// Keep Debug debuggable, but never install that entitlement from Release.
+CODE_SIGN_INJECT_BASE_ENTITLEMENTS[config=Release] = NO
+
+// --- Warnings -------------------------------------------------------------
+GCC_NO_COMMON_BLOCKS = YES
+GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR
+GCC_WARN_UNDECLARED_SELECTOR = YES
+GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE
+GCC_WARN_UNUSED_FUNCTION = YES
+GCC_WARN_UNUSED_VARIABLE = YES
+CLANG_WARN_BOOL_CONVERSION = YES
+CLANG_WARN_CONSTANT_CONVERSION = YES
+CLANG_WARN_DOCUMENTATION_COMMENTS = YES
+CLANG_WARN_EMPTY_BODY = YES
+CLANG_WARN_ENUM_CONVERSION = YES
+CLANG_WARN_INFINITE_RECURSION = YES
+CLANG_WARN_INT_CONVERSION = YES
+CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR
+CLANG_WARN_RANGE_LOOP_ANALYSIS = YES
+CLANG_WARN_STRICT_PROTOTYPES = YES
+CLANG_WARN_SUSPICIOUS_MOVE = YES
+CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE
+CLANG_WARN_UNREACHABLE_CODE = YES
+ENABLE_STRICT_OBJC_MSGSEND = YES
+
+// --- Local overrides (gitignored). Included last so it wins. ---------------
+#include? "Local.xcconfig"

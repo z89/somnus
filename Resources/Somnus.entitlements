@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- DELIBERATELY EMPTY. Somnus.app must NOT be sandboxed: it execs
+	     /usr/bin/pmset for `pmset -g`, `pmset -g assertions` and `pmset sleepnow`,
+	     which a sandboxed process cannot do. -->
+</dict>
+</plist>
