@@ -1,0 +1,790 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C00000000000000000000001 /* libSomnusKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* libSomnusKit.a */; };
+		C00000000000000000000002 /* libSomnusKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* libSomnusKit.a */; };
+		C00000000000000000000003 /* libSomnusKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* libSomnusKit.a */; };
+		C00000000000000000000004 /* libSomnusKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A20000000000000000000001 /* libSomnusKit.a */; };
+		C00000000000000000000005 /* somnusd in Embed Helper Tools */ = {isa = PBXBuildFile; fileRef = A20000000000000000000003 /* somnusd */; };
+		C00000000000000000000006 /* somnus in Embed CLI */ = {isa = PBXBuildFile; fileRef = A20000000000000000000005 /* somnus */; };
+		C00000000000000000000007 /* SomnusControl.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A20000000000000000000004 /* SomnusControl.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		C00000000000000000000008 /* com.z89.somnus.helper.plist in Embed LaunchDaemon plist */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000C /* com.z89.somnus.helper.plist */; };
+		C00000000000000000000009 /* Somnus.icns in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000011 /* Somnus.icns */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B2000000000000000000000C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B10000000000000000000001;
+			remoteInfo = SomnusKit;
+		};
+		B2000000000000000000000E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B30000000000000000000001;
+			remoteInfo = somnusd;
+		};
+		B20000000000000000000010 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B40000000000000000000001;
+			remoteInfo = SomnusControl;
+		};
+		B20000000000000000000012 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B50000000000000000000001;
+			remoteInfo = "somnus-cli";
+		};
+		B30000000000000000000008 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B10000000000000000000001;
+			remoteInfo = SomnusKit;
+		};
+		B40000000000000000000009 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B10000000000000000000001;
+			remoteInfo = SomnusKit;
+		};
+		B50000000000000000000008 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A00000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B10000000000000000000001;
+			remoteInfo = SomnusKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B20000000000000000000005 /* Embed LaunchDaemon plist */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "Contents/Library/LaunchDaemons";
+			dstSubfolderSpec = 1;
+			files = (
+				C00000000000000000000008 /* com.z89.somnus.helper.plist in Embed LaunchDaemon plist */,
+			);
+			name = "Embed LaunchDaemon plist";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B20000000000000000000006 /* Embed Helper Tools */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				C00000000000000000000005 /* somnusd in Embed Helper Tools */,
+			);
+			name = "Embed Helper Tools";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B20000000000000000000013 /* Embed CLI */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "Contents/Helpers";
+			dstSubfolderSpec = 1;
+			files = (
+				C00000000000000000000006 /* somnus in Embed CLI */,
+			);
+			name = "Embed CLI";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B20000000000000000000007 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				C00000000000000000000007 /* SomnusControl.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A1000000000000000000000A /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
+		A1000000000000000000000B /* Local.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Local.xcconfig.example; sourceTree = "<group>"; };
+		A1000000000000000000000C /* com.z89.somnus.helper.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = com.z89.somnus.helper.plist; sourceTree = "<group>"; };
+		A1000000000000000000000D /* Somnus-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Somnus-Info.plist"; sourceTree = "<group>"; };
+		A1000000000000000000000E /* SomnusControl-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SomnusControl-Info.plist"; sourceTree = "<group>"; };
+		A1000000000000000000000F /* Somnus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Somnus.entitlements; sourceTree = "<group>"; };
+		A10000000000000000000010 /* SomnusControl.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SomnusControl.entitlements; sourceTree = "<group>"; };
+		A10000000000000000000011 /* Somnus.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Somnus.icns; sourceTree = "<group>"; };
+		A20000000000000000000001 /* libSomnusKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSomnusKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000002 /* Somnus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Somnus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000003 /* somnusd */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = somnusd; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000004 /* SomnusControl.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SomnusControl.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A20000000000000000000005 /* somnus */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = somnus; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A30000000000000000000001 /* SomnusKit */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SomnusKit;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000002 /* Somnus */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Somnus;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000003 /* somnusd */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = somnusd;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000004 /* SomnusControl */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SomnusControl;
+			sourceTree = "<group>";
+		};
+		A30000000000000000000005 /* somnus-cli */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "somnus-cli";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B10000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B20000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C00000000000000000000001 /* libSomnusKit.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B30000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C00000000000000000000002 /* libSomnusKit.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B40000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C00000000000000000000003 /* libSomnusKit.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B50000000000000000000003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C00000000000000000000004 /* libSomnusKit.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A00000000000000000000002 = {
+			isa = PBXGroup;
+			children = (
+				A00000000000000000000004 /* Config */,
+				A00000000000000000000006 /* Sources */,
+				A00000000000000000000005 /* Resources */,
+				A00000000000000000000003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A00000000000000000000003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A20000000000000000000001 /* libSomnusKit.a */,
+				A20000000000000000000002 /* Somnus.app */,
+				A20000000000000000000003 /* somnusd */,
+				A20000000000000000000004 /* SomnusControl.appex */,
+				A20000000000000000000005 /* somnus */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000004 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				A1000000000000000000000A /* Shared.xcconfig */,
+				A1000000000000000000000B /* Local.xcconfig.example */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000005 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000011 /* Somnus.icns */,
+				A1000000000000000000000C /* com.z89.somnus.helper.plist */,
+				A1000000000000000000000D /* Somnus-Info.plist */,
+				A1000000000000000000000F /* Somnus.entitlements */,
+				A1000000000000000000000E /* SomnusControl-Info.plist */,
+				A10000000000000000000010 /* SomnusControl.entitlements */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		A00000000000000000000006 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A30000000000000000000001 /* SomnusKit */,
+				A30000000000000000000002 /* Somnus */,
+				A30000000000000000000003 /* somnusd */,
+				A30000000000000000000004 /* SomnusControl */,
+				A30000000000000000000005 /* somnus-cli */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B10000000000000000000001 /* SomnusKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B10000000000000000000004 /* Build configuration list for PBXNativeTarget "SomnusKit" */;
+			buildPhases = (
+				B10000000000000000000002 /* Sources */,
+				B10000000000000000000003 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A30000000000000000000001 /* SomnusKit */,
+			);
+			name = SomnusKit;
+			packageProductDependencies = (
+			);
+			productName = SomnusKit;
+			productReference = A20000000000000000000001 /* libSomnusKit.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B20000000000000000000001 /* Somnus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B20000000000000000000008 /* Build configuration list for PBXNativeTarget "Somnus" */;
+			buildPhases = (
+				B20000000000000000000002 /* Sources */,
+				B20000000000000000000003 /* Frameworks */,
+				B20000000000000000000004 /* Resources */,
+				B20000000000000000000006 /* Embed Helper Tools */,
+				B20000000000000000000013 /* Embed CLI */,
+				B20000000000000000000005 /* Embed LaunchDaemon plist */,
+				B20000000000000000000007 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B2000000000000000000000B /* PBXTargetDependency */,
+				B2000000000000000000000D /* PBXTargetDependency */,
+				B2000000000000000000000F /* PBXTargetDependency */,
+				B20000000000000000000011 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A30000000000000000000002 /* Somnus */,
+			);
+			name = Somnus;
+			packageProductDependencies = (
+			);
+			productName = Somnus;
+			productReference = A20000000000000000000002 /* Somnus.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B30000000000000000000001 /* somnusd */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B30000000000000000000004 /* Build configuration list for PBXNativeTarget "somnusd" */;
+			buildPhases = (
+				B30000000000000000000002 /* Sources */,
+				B30000000000000000000003 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B30000000000000000000007 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A30000000000000000000003 /* somnusd */,
+			);
+			name = somnusd;
+			packageProductDependencies = (
+			);
+			productName = somnusd;
+			productReference = A20000000000000000000003 /* somnusd */;
+			productType = "com.apple.product-type.tool";
+		};
+		B40000000000000000000001 /* SomnusControl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B40000000000000000000005 /* Build configuration list for PBXNativeTarget "SomnusControl" */;
+			buildPhases = (
+				B40000000000000000000002 /* Sources */,
+				B40000000000000000000003 /* Frameworks */,
+				B40000000000000000000004 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B40000000000000000000008 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A30000000000000000000004 /* SomnusControl */,
+			);
+			name = SomnusControl;
+			packageProductDependencies = (
+			);
+			productName = SomnusControl;
+			productReference = A20000000000000000000004 /* SomnusControl.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		B50000000000000000000001 /* somnus-cli */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B50000000000000000000004 /* Build configuration list for PBXNativeTarget "somnus-cli" */;
+			buildPhases = (
+				B50000000000000000000002 /* Sources */,
+				B50000000000000000000003 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B50000000000000000000007 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A30000000000000000000005 /* somnus-cli */,
+			);
+			name = "somnus-cli";
+			packageProductDependencies = (
+			);
+			productName = "somnus-cli";
+			productReference = A20000000000000000000005 /* somnus */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A00000000000000000000001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					B10000000000000000000001 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					B20000000000000000000001 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					B30000000000000000000001 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					B40000000000000000000001 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+					B50000000000000000000001 = {
+						CreatedOnToolsVersion = 26.6;
+					};
+				};
+			};
+			buildConfigurationList = A00000000000000000000007 /* Build configuration list for PBXProject "somnus" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A00000000000000000000002;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A00000000000000000000003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B10000000000000000000001 /* SomnusKit */,
+				B20000000000000000000001 /* Somnus */,
+				B30000000000000000000001 /* somnusd */,
+				B40000000000000000000001 /* SomnusControl */,
+				B50000000000000000000001 /* somnus-cli */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B20000000000000000000004 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C00000000000000000000009 /* Somnus.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B40000000000000000000004 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B10000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B20000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B30000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B40000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B50000000000000000000002 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B2000000000000000000000B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B10000000000000000000001 /* SomnusKit */;
+			targetProxy = B2000000000000000000000C /* PBXContainerItemProxy */;
+		};
+		B2000000000000000000000D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B30000000000000000000001 /* somnusd */;
+			targetProxy = B2000000000000000000000E /* PBXContainerItemProxy */;
+		};
+		B2000000000000000000000F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B40000000000000000000001 /* SomnusControl */;
+			targetProxy = B20000000000000000000010 /* PBXContainerItemProxy */;
+		};
+		B20000000000000000000011 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B50000000000000000000001 /* somnus-cli */;
+			targetProxy = B20000000000000000000012 /* PBXContainerItemProxy */;
+		};
+		B30000000000000000000007 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B10000000000000000000001 /* SomnusKit */;
+			targetProxy = B30000000000000000000008 /* PBXContainerItemProxy */;
+		};
+		B40000000000000000000008 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B10000000000000000000001 /* SomnusKit */;
+			targetProxy = B40000000000000000000009 /* PBXContainerItemProxy */;
+		};
+		B50000000000000000000007 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B10000000000000000000001 /* SomnusKit */;
+			targetProxy = B50000000000000000000008 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A00000000000000000000008 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1000000000000000000000A /* Shared.xcconfig */;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A00000000000000000000009 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1000000000000000000000A /* Shared.xcconfig */;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		B10000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Debug;
+		};
+		B10000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				EXECUTABLE_PREFIX = lib;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+			};
+			name = Release;
+		};
+		B20000000000000000000009 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Resources/Somnus.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Resources/Somnus-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.z89.somnus;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
+			};
+			name = Debug;
+		};
+		B2000000000000000000000A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = Resources/Somnus.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Resources/Somnus-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.z89.somnus;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
+			};
+			name = Release;
+		};
+		B30000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.z89.somnus.helper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
+			};
+			name = Debug;
+		};
+		B30000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.z89.somnus.helper;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
+			};
+			name = Release;
+		};
+		B40000000000000000000006 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/SomnusControl.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Resources/SomnusControl-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.z89.somnus.SomnusControl;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
+			};
+			name = Debug;
+		};
+		B40000000000000000000007 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = Resources/SomnusControl.entitlements;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "Resources/SomnusControl-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.z89.somnus.SomnusControl;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
+			};
+			name = Release;
+		};
+		B50000000000000000000005 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.z89.somnus.cli;
+				PRODUCT_NAME = somnus;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
+			};
+			name = Debug;
+		};
+		B50000000000000000000006 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.z89.somnus.cli;
+				PRODUCT_NAME = somnus;
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = (
+					"$(inherited)",
+					"$(BUILT_PRODUCTS_DIR)",
+				);
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A00000000000000000000007 /* Build configuration list for PBXProject "somnus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A00000000000000000000008 /* Debug */,
+				A00000000000000000000009 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B10000000000000000000004 /* Build configuration list for PBXNativeTarget "SomnusKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B10000000000000000000005 /* Debug */,
+				B10000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B20000000000000000000008 /* Build configuration list for PBXNativeTarget "Somnus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B20000000000000000000009 /* Debug */,
+				B2000000000000000000000A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B30000000000000000000004 /* Build configuration list for PBXNativeTarget "somnusd" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B30000000000000000000005 /* Debug */,
+				B30000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B40000000000000000000005 /* Build configuration list for PBXNativeTarget "SomnusControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B40000000000000000000006 /* Debug */,
+				B40000000000000000000007 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B50000000000000000000004 /* Build configuration list for PBXNativeTarget "somnus-cli" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B50000000000000000000005 /* Debug */,
+				B50000000000000000000006 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A00000000000000000000001 /* Project object */;
+}

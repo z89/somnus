@@ -1,0 +1,40 @@
+# Build
+.build/
+DerivedData/
+build/
+release/
+*.xcresult
+*.zip
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcshareddata/
+
+# Local signing config contains your own DEVELOPMENT_TEAM
+Config/Local.xcconfig
+.baseline-power.txt
+
+# Local credentials and signing files
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.mobileprovision
+
+# macOS
+.DS_Store
+
+# Swift
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+timeline.xctimeline
+playground.xcworkspace
+.probe/
+.swiftpm/
+.idea/
+*.orig
