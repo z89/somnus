@@ -293,29 +293,38 @@ public enum PMSet {
         var hibernateMode = 0
         var sleepDisabled = false
         var sleepDisabledIsKnown = false
+        var sleepDisabledIsInvalid = false
         for rawLine in text.split(separator: "\n", omittingEmptySubsequences: true) {
             let fields = rawLine.split(whereSeparator: { $0 == " " || $0 == "\t" })
-            guard fields.count >= 2 else { continue }
-            switch fields[0] {
+            guard let key = fields.first else { continue }
+            let value = fields.count >= 2 ? fields[1].lowercased() : ""
+            switch key {
             case "hibernatemode":
-                hibernateMode = Int(fields[1]) ?? hibernateMode
+                hibernateMode = Int(value) ?? hibernateMode
             case "SleepDisabled":
-                if fields[1] == "1" {
+                switch value {
+                case "1", "true", "yes":
                     sleepDisabled = true
                     sleepDisabledIsKnown = true
-                } else if fields[1] == "0" {
+                case "0", "false", "no":
                     sleepDisabled = false
                     sleepDisabledIsKnown = true
+                default:
+                    sleepDisabledIsInvalid = true
                 }
             default:
                 continue
             }
         }
-        // Same rule as somnusd's `PMSet.parseSleepDisabled`: macOS omits the
+        // Same rules as somnusd's `PMSet.parseSleepDisabled`: macOS omits the
         // key until it has been set, so its absence from otherwise valid
-        // output is the default, off.
-        if !sleepDisabledIsKnown,
-           text.contains("System-wide power settings:") || text.contains("Currently in use:") {
+        // output is the default, off. A key with a value that cannot be read
+        // is unknown, never off.
+        if sleepDisabledIsInvalid {
+            sleepDisabled = false
+            sleepDisabledIsKnown = false
+        } else if !sleepDisabledIsKnown,
+                  text.contains("System-wide power settings:") || text.contains("Currently in use:") {
             sleepDisabledIsKnown = true
         }
         return SleepSettings(hibernateMode: hibernateMode,

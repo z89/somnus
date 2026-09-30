@@ -17,7 +17,12 @@ final class MonitoringHeartbeatStore: @unchecked Sendable {
     private let startedAt: TimeInterval
     private var lastHeartbeatUptime: TimeInterval?
     private var hasReceivedReport = false
-    private var watchdogHandledCurrentLapse = false
+    /// Bumped by every protected report. A lapse is identified by the epoch
+    /// it follows, so a later lapse is never mistaken for one already handled,
+    /// even when the watchdog never observed the protected report in between.
+    private var protectionEpoch = 0
+    private var evaluatedEpoch = 0
+    private var handledEpoch: Int?
     private var reportedRunning = false
     private var reportedSafetyNetArmed = false
     private var reportedMonitoringDegraded = false
@@ -41,12 +46,14 @@ final class MonitoringHeartbeatStore: @unchecked Sendable {
         reportedMonitoringDegraded = monitoringDegraded
         reportedACAwareModeEnabled = acAwareModeEnabled
         lastHeartbeatUptime = running ? uptime : nil
+        if running && safetyNetArmed { protectionEpoch += 1 }
         lock.unlock()
     }
 
     /// One watchdog action per lapse. A daemon that has just launched gets the
     /// same grace period as a live heartbeat; an explicit stopped/unprotected
-    /// report is actionable immediately.
+    /// report is actionable immediately. Called only from the helper's serial
+    /// work queue, so each call pairs with the `markWatchdogHandled` after it.
     func shouldRunWatchdog(
         at uptime: TimeInterval = ProcessInfo.processInfo.systemUptime
     ) -> Bool {
@@ -56,18 +63,16 @@ final class MonitoringHeartbeatStore: @unchecked Sendable {
         let heartbeatFresh = reportedRunning
             && lastHeartbeatUptime.map { max(0, uptime - $0) <= timeout } == true
         let protected = heartbeatFresh && reportedSafetyNetArmed
-        if protected {
-            watchdogHandledCurrentLapse = false
-            return false
-        }
+        if protected { return false }
 
         let graceExpired = hasReceivedReport || max(0, uptime - startedAt) > timeout
-        return graceExpired && !watchdogHandledCurrentLapse
+        evaluatedEpoch = protectionEpoch
+        return graceExpired && handledEpoch != protectionEpoch
     }
 
     func markWatchdogHandled() {
         lock.lock()
-        watchdogHandledCurrentLapse = true
+        handledEpoch = evaluatedEpoch
         lock.unlock()
     }
 
