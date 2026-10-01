@@ -1,9 +1,9 @@
 <h1 align="center">somnus</h1>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/macos-26%2B-8fd3ff?style=flat-square&labelColor=1b1a20" alt="macOS 26+">
-  <img src="https://img.shields.io/badge/pmset-SleepDisabled-8fd3ff?style=flat-square&labelColor=1b1a20" alt="pmset SleepDisabled">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-8fd3ff?style=flat-square&labelColor=1b1a20" alt="license MIT"></a>
+  <img src="https://img.shields.io/badge/macos-26%2B-c4a7ff?style=flat-square&labelColor=1b1a20" alt="macOS 26+">
+  <img src="https://img.shields.io/badge/pmset-SleepDisabled-c4a7ff?style=flat-square&labelColor=1b1a20" alt="pmset SleepDisabled">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-c4a7ff?style=flat-square&labelColor=1b1a20" alt="license MIT"></a>
 </p>
 
 somnus keeps your macbook awake with the lid closed. turn it on from the menu bar, Control Center, Shortcuts or the terminal, and your macbook keeps running until you turn it off again.
